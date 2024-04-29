@@ -3,11 +3,8 @@ import streamlit as st
 from pytube import YouTube
 import os
 
-def download_youtube_audio(url):
+def download_youtube_audio(url, destination):
     try:
-        # Utilise le dossier Téléchargements de l'utilisateur
-        destination = os.path.join(os.path.expanduser('~'), 'Downloads')
-        
         video = YouTube(url)
         audio = video.streams.filter(only_audio=True, file_extension='mp4').first()
         default_filename = audio.default_filename
@@ -20,7 +17,9 @@ def download_youtube_audio(url):
 # Interface utilisateur
 st.title("Extracteur d'audio YouTube")
 video_link = st.text_input("Entrez l'URL de la vidéo YouTube :", "https://youtu.be/your_video_id")
+destination = st.text_input("Chemin de destination pour le fichier :", "C:/Users/Documents/Brouillon")
 
 if st.button("Télécharger l'audio"):
-    result = download_youtube_audio(video_link)
+    result = download_youtube_audio(video_link, destination)
     st.success(result)
+
